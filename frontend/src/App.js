@@ -19,10 +19,17 @@ const Container = styled.div`
 
 const Title = styled.h2``;
 
+//pega os itens setados do grid para enviar para o formulario
 function App() {
   const [users, setUsers] = useState([]);
   const [onEdit, setOnEdit] = useState(null);
 
+/*
+no grid e setado os itens e manda paara o formulario, para a atualização dos dados que aparece na tela ou null dps que finalizar a função
+*/
+
+
+//faz aquisição e atualiza todos os itens
   const getUsers = async () => {
     try {
       const res = await axios.get("http://localhost:8800");
@@ -40,8 +47,8 @@ function App() {
     <>
       <Container>
         <Title>Usuarios</Title>
-        <Form />
-        <Grid users={users}/>
+        <Form onEdit={onEdit} setOnEdit={setOnEdit} getUsers={getUsers} />
+        <Grid users={users} setUsers={setUsers} setOnEdit={setOnEdit} />
       </Container>
       <ToastContainer autoClose={3000} position={toast.POSITION.BOTTOM_LEFT} />
       <GlobalStyle />

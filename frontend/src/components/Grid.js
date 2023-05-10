@@ -41,21 +41,25 @@ export const Td = styled.td`
   }
 `;
 
-const Grid = ({ users }) => {
+const Grid = ({ users, setUsers, setOnEdit }) => {
+  const handleEdit = (item) => {
+    setOnEdit(item);
+  };
 
-    const handleDelete = async (id) => {
+  // chama url e valida status para deletar e rentornar array de usuarios que nao foi deletado
+  const handleDelete = async (id) => {
     await axios
-    .delete("https://localhost:8800/"+id)
-    .then(({data}) => {
-        const newArray = users.filter((users) => users.id !== id);
-        
+      .delete("http://localhost:8800/" + id)
+      .then(({ data }) => {
+        const newArray = users.filter((user) => user.id !== id);
+
         setUsers(newArray);
         toast.success(data);
-    })
-    .catch(({data}) => toast.error(data));
+      })
+      .catch(({ data }) => toast.error(data));
 
-    setOneEdit(null);
-}
+    setOnEdit(null);
+  };
 
   return (
     <Table>
@@ -77,7 +81,7 @@ const Grid = ({ users }) => {
               {item.fone}
             </Td>
             <Td alignCenter width="5%">
-              <FaEdit />
+              <FaEdit onClick={() => handleEdit(item)} />
             </Td>
             <Td alignCenter width="5%">
               <FaTrash onClick={() => handleDelete(item.id)} />
